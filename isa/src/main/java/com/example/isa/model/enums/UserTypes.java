@@ -1,5 +1,5 @@
 package com.example.isa.model.enums;
 
-public enum UserType {
+public enum UserTypes {
     USER, ADMIN_CENTER, ADMIN_SYSTEM
 }

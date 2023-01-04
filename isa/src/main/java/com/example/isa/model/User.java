@@ -1,14 +1,20 @@
 package com.example.isa.model;
 
 import com.example.isa.model.enums.Gender;
-import com.example.isa.model.enums.UserType;
+import com.example.isa.model.enums.UserTypes;
 
-public class User extends Entity{
+import javax.persistence.*;
+
+@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String email;
     private String password;
     private String name;
     private String surname;
-    private UserType userType;
+    private UserTypes userTypes;
     private String telephoneNumber;
     private String personalId;
     private Gender gender;
@@ -18,8 +24,9 @@ public class User extends Entity{
     private boolean firstLogin;
     private int penaltyNumber;
 
+    @ManyToOne
     private LoyaltyProgram loyaltyProgram; //Patient (ManyToOne)
-
+    @ManyToOne
     private CenterAccount centerAccount; //Center account has more users, user has one center account (ManyToOne)
 
     public String getEmail() {
@@ -54,12 +61,12 @@ public class User extends Entity{
         this.surname = surname;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public UserTypes getUserType() {
+        return userTypes;
     }
 
-    public void setUserType(UserType userType) {
-        this.userType = userType;
+    public void setUserType(UserTypes userTypes) {
+        this.userTypes = userTypes;
     }
 
     public String getTelephoneNumber() {
@@ -124,5 +131,29 @@ public class User extends Entity{
 
     public void setPenaltyNumber(int penaltyNumber) {
         this.penaltyNumber = penaltyNumber;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public LoyaltyProgram getLoyaltyProgram() {
+        return loyaltyProgram;
+    }
+
+    public void setLoyaltyProgram(LoyaltyProgram loyaltyProgram) {
+        this.loyaltyProgram = loyaltyProgram;
+    }
+
+    public CenterAccount getCenterAccount() {
+        return centerAccount;
+    }
+
+    public void setCenterAccount(CenterAccount centerAccount) {
+        this.centerAccount = centerAccount;
     }
 }

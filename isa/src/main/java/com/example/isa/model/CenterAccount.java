@@ -1,10 +1,15 @@
 package com.example.isa.model;
 
+import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.List;
 
-public class CenterAccount extends Entity {
+@Entity
+public class CenterAccount {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String name;
     private String address;
     private String description;
@@ -14,6 +19,7 @@ public class CenterAccount extends Entity {
 
     private LocalTime endTime;
 
+    @OneToMany
     private List<User> centerAdmins;
 
     public String getName() {
@@ -62,5 +68,21 @@ public class CenterAccount extends Entity {
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public List<User> getCenterAdmins() {
+        return centerAdmins;
+    }
+
+    public void setCenterAdmins(List<User> centerAdmins) {
+        this.centerAdmins = centerAdmins;
     }
 }

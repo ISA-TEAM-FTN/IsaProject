@@ -1,6 +1,16 @@
 package com.example.isa.model;
 
-public class Address extends Entity {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Address {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String street;
     private String city;
     private String country;
@@ -27,5 +37,13 @@ public class Address extends Entity {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

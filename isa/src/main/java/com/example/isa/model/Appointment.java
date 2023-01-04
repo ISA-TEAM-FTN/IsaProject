@@ -1,19 +1,29 @@
 package com.example.isa.model;
 
+import javax.persistence.*;
 import java.time.Instant;
 
-public class Appointment extends Entity {
+@Entity
+public class Appointment {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @ManyToOne
     private CenterAccount centerAccount; //center account has more appointments manyToOne
 
     private Instant dateAndTime;
 
     private int duration;
 
+    @ManyToOne
     private User adminOfCenter;
 
+    @ManyToOne
     private User patient;
 
+    @ManyToOne
     private Poll poll;
 
     public Poll getPoll() {
@@ -62,5 +72,13 @@ public class Appointment extends Entity {
 
     public void setAdminOfCenter(User adminOfCenter) {
         this.adminOfCenter = adminOfCenter;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
