@@ -1,9 +1,6 @@
 package com.example.isa.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Feedback {
@@ -13,6 +10,7 @@ public class Feedback {
     private long id;
     private int grade;
 
+    @OneToOne
     private User patient;
 
     public int getGrade() {

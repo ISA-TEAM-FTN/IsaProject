@@ -1,9 +1,6 @@
 package com.example.isa.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Complaint  {
@@ -13,6 +10,7 @@ public class Complaint  {
     private long id;
     private String Comment;
 
+    @ManyToOne
     private User user; //user has more complains, manyToOne
 
     public String getComment() {
