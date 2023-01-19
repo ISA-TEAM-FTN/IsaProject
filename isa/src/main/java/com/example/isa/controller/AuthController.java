@@ -15,13 +15,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-@RestController("/api/login")
+@RestController
+@RequestMapping("/api/login")
 public class AuthController {
 
     private final UserService userService;
@@ -38,9 +40,9 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<AuthenticationDto> login(@Valid @RequestBody LoginDto loginDto) {
-        final UserCredential userCredential = userCredentialService.getUserCredentialByEmail(loginDto.getUsername()).orElseThrow(UnauthorizedException::new);
+        final UserCredential userCredential = userCredentialService.getUserCredentialByEmail(loginDto.getEmail()).orElseThrow(UnauthorizedException::new);
         if (!passwordEncoder.matches(loginDto.getPassword(), userCredential.getPassword())) {
             throw new UnauthorizedException();
         }

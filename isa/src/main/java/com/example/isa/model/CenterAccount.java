@@ -11,7 +11,9 @@ public class CenterAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    private String address;
+
+    @OneToOne
+    private Address address;
     private String description;
     private double averageRating;
 
@@ -30,11 +32,11 @@ public class CenterAccount {
         this.name = name;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 

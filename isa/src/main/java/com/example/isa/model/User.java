@@ -15,8 +15,13 @@ public class User {
     private String name;
     private String surname;
     private UserTypes userTypes;
+
+    @OneToOne
+    private Address address;
     private String telephoneNumber;
     private String personalId;
+
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String occupation;
     private String occupationInfo;
@@ -155,5 +160,21 @@ public class User {
 
     public void setCenterAccount(CenterAccount centerAccount) {
         this.centerAccount = centerAccount;
+    }
+
+    public UserTypes getUserTypes() {
+        return userTypes;
+    }
+
+    public void setUserTypes(UserTypes userTypes) {
+        this.userTypes = userTypes;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }
