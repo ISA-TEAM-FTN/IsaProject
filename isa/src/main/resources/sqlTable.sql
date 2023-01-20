@@ -9,15 +9,15 @@ CREATE TABLE Address (
 
 CREATE TABLE Poll (
                       id int unsigned AUTO_INCREMENT,
-                      bloodType varchar(256),
-                      patientArrived bit(1),
-                      deniedType bit(1),
-                      reasonForDenied bit(1),
-                      amountOfBlood decimal(19,4),
+                      blood_type varchar(256),
+                      patient_arrived bit(1),
+                      denied_type bit(1),
+                      reason_for_denied bit(1),
+                      amount_of_blood decimal(19,4),
                       primary key (id)
 );
 
-CREATE TABLE LoyaltyProgram (
+CREATE TABLE Loyalty_Program (
                                 id int unsigned AUTO_INCREMENT,
                                 category varchar(256),
                                 points int,
@@ -31,15 +31,15 @@ CREATE TABLE Equipment (
                            primary key (id)
 );
 
-CREATE TABLE CenterAccount(
+CREATE TABLE Center_Account(
                               id int unsigned AUTO_INCREMENT,
                               name varchar(256),
-                              addressId int unsigned,
+                              address_id int unsigned,
                               description varchar(256),
-                              averageRating  decimal(19,4),
-                              startTime time,
-                              endTime time,
-                              foreign key (addressId) references Address(id),
+                              average_rating  decimal(19,4),
+                              start_time time,
+                              end_time time,
+                              foreign key (address_id) references Address(id),
                               primary key (id)
 );
 
@@ -49,42 +49,42 @@ CREATE TABLE User(
                      password varchar(256),
                      name varchar(256),
                      surname varchar(256),
-                     addressId int unsigned,
-                     userTypes varchar(256),
-                     telephoneNumber varchar(256),
-                     personalId varchar(256),
+                     address_id int unsigned,
+                     user_types varchar(256),
+                     telephone_number varchar(256),
+                     personal_id varchar(256),
                      gender varchar(256),
                      occupation varchar(256),
-                     occupationInfo varchar(256),
-                     isActive bit(1),
-                     firstLogin bit(1),
-                     penaltyNumber int,
-                     loyaltyProgramId int unsigned,
-                     centerAccountID int unsigned,
+                     occupation_info varchar(256),
+                     is_active bit(1),
+                     first_login bit(1),
+                     penalty_number int,
+                     loyalty_program_id int unsigned,
+                     center_account_id int unsigned,
                      primary key (id),
-                     FOREIGN KEY (addressId) REFERENCES Address(id),
-                     FOREIGN KEY (loyaltyProgramId) REFERENCES LoyaltyProgram(id),
-                     FOREIGN KEY (centerAccountID) REFERENCES CenterAccount(id)
+                     FOREIGN KEY (address_id) REFERENCES Address(id),
+                     FOREIGN KEY (loyalty_program_id) REFERENCES Loyalty_Program(id),
+                     FOREIGN KEY (center_account_id) REFERENCES Center_Account(id)
 );
 
 CREATE TABLE Appointment(
                             id int unsigned AUTO_INCREMENT,
-                            centerAccountId int unsigned,
-                            dateAndTime datetime,
+                            center_account_id int unsigned,
+                            date_and_time datetime,
                             duration int,
-                            adminOfCenterId int unsigned,
-                            patientId int unsigned,
-                            pollId int unsigned,
+                            admin_of_center_id int unsigned,
+                            user_id int unsigned,
+                            poll_id int unsigned,
                             primary key (id),
-                            FOREIGN KEY (centerAccountId) REFERENCES CenterAccount(id),
-                            FOREIGN KEY (adminOfCenterId) REFERENCES User(id),
-                            FOREIGN KEY (patientId) REFERENCES User(id),
-                            FOREIGN KEY (pollId) REFERENCES Poll(id)
+                            FOREIGN KEY (center_account_id) REFERENCES Center_Account(id),
+                            FOREIGN KEY (admin_of_center_id) REFERENCES User(id),
+                            FOREIGN KEY (user_id) REFERENCES User(id),
+                            FOREIGN KEY (poll_id) REFERENCES Poll(id)
 );
 
 CREATE TABLE Blood(
                       id int unsigned AUTO_INCREMENT,
-                      bloodType varchar(256),
+                      blood_type varchar(256),
                       amount  decimal(19,4),
                       primary key (id)
 );
@@ -94,55 +94,55 @@ CREATE TABLE Blood(
 CREATE TABLE Complaint(
                           id int unsigned AUTO_INCREMENT,
                           comment varchar(256),
-                          userId int unsigned,
+                          user_id int unsigned,
                           primary key (id),
-                          FOREIGN KEY(userId) REFERENCES user(id)
+                          FOREIGN KEY(user_id) REFERENCES user(id)
 
 );
 
-CREATE TABLE ComplaintAnswer(
+CREATE TABLE Complaint_Answer(
                                 id int unsigned AUTO_INCREMENT,
                                 answer varchar(256),
-                                complaintId int unsigned,
+                                complaint_id int unsigned,
                                 primary key (id),
-                                FOREIGN KEY (complaintId) REFERENCES Complaint(id)
+                                FOREIGN KEY (complaint_id) REFERENCES Complaint(id)
 );
 
 CREATE TABLE Feedback(
                          id int unsigned AUTO_INCREMENT,
                          grade int,
-                         userId int unsigned,
+                         user_id int unsigned,
                          primary key (id),
-                         foreign key (userId) REFERENCES User(id)
+                         foreign key (user_id) REFERENCES User(id)
 );
 
-CREATE TABLE QRCode(
+CREATE TABLE QRCODE(
                        id int unsigned AUTO_INCREMENT,
-                       appointmentId int unsigned,
-                       qrCodeStatus varchar(256),
-                       dateOfCreation datetime,
+                       appointment_id int unsigned,
+                       qrcode_status varchar(256),
+                       date_of_Creation datetime,
                        primary key (id)
 );
 
-CREATE TABLE UserCredential (
+CREATE TABLE User_Credential (
             id int unsigned AUTO_INCREMENT,
-            userId int unsigned,
+            user_id int unsigned,
             email varchar(256),
             password varchar(256),
-            foreign key (userId) REFERENCES User(id),
+            foreign key (user_id) REFERENCES User(id),
             primary key (id)
 );
 
 insert into `address`(street, city, country) values('Dusana Petrovica 7','Subotica','Srbija');
 insert into `address`(street, city, country) values('Dusana Petrovica 71','Subotica','Srbija');
 
-insert into LoyaltyProgram(category, points) values ('REGULAR','100');
+insert into Loyalty_Program(category, points) values ('REGULAR','100');
 
-insert into CenterAccount(name, addressId, description, averageRating, startTime, endTime)
+insert into Center_Account(name, address_id, description, average_rating, start_time, end_time)
 values ('Center',2,'bla',6,'10:34:23','12:34:23');
 
-insert into `user` ( `email`, `password`, `name`, `surname`, `userTypes`, `addressId`, `telephoneNumber`, `personalId`, `gender`, `occupation`, `occupationInfo`, `isActive`,`firstLogin`,`penaltyNumber`,`loyaltyProgramId`,`centerAccountID`)
-values( 'nebojsa@gmail.com', '$2a$12$zMGWfImfe/HDu0/Mq68CTuwmKkiiqlQmHdpx/rhCVxPZN6wVpltTS', 'Nebojsa', 'Bogosavljev', 'ADMIN_SYSTEM', 1, '064495226', '264321332','MALE','student','student',true,false,0,1,1);
+insert into User(email, password, name, surname, address_id, user_types, telephone_number, personal_id, gender, occupation, occupation_info, is_active, first_login, penalty_number, loyalty_program_id, center_account_id)
+values( 'nebojsa@gmail.com', '$2a$12$zMGWfImfe/HDu0/Mq68CTuwmKkiiqlQmHdpx/rhCVxPZN6wVpltTS', 'Nebojsa', 'Bogosavljev',1 ,'ADMIN_CENTER', '064495226', '264321332','MALE','student','student',true,false,0,1,1);
 
-insert into `user_credential`(email, password, user_id)
-VALUES ('nebojsa@gmail.com','$2a$12$zMGWfImfe/HDu0/Mq68CTuwmKkiiqlQmHdpx/rhCVxPZN6wVpltTS',1);
+insert into User_Credential(user_id, email, password)
+VALUES (1,'nebojsa@gmail.com','$2a$12$zMGWfImfe/HDu0/Mq68CTuwmKkiiqlQmHdpx/rhCVxPZN6wVpltTS');

@@ -2,10 +2,7 @@ package com.example.isa.model;
 
 import com.example.isa.model.enums.LoyaltyProgramCategory;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class LoyaltyProgram {
@@ -14,6 +11,7 @@ public class LoyaltyProgram {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     //Na osnovu loyalty programa ce biti neki popust?
+    @Enumerated(value = EnumType.STRING)
     private LoyaltyProgramCategory category;
 
     private int points;

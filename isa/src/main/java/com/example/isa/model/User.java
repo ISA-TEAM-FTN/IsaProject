@@ -2,6 +2,8 @@ package com.example.isa.model;
 
 import com.example.isa.model.enums.Gender;
 import com.example.isa.model.enums.UserTypes;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 
@@ -14,6 +16,8 @@ public class User {
     private String password;
     private String name;
     private String surname;
+
+    @Enumerated(EnumType.STRING)
     private UserTypes userTypes;
 
     @OneToOne
@@ -177,4 +181,29 @@ public class User {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("id", id)
+                .append("email", email)
+                .append("password", password)
+                .append("name", name)
+                .append("surname", surname)
+                .append("userTypes", userTypes)
+                .append("address", address)
+                .append("telephoneNumber", telephoneNumber)
+                .append("personalId", personalId)
+                .append("gender", gender)
+                .append("occupation", occupation)
+                .append("occupationInfo", occupationInfo)
+                .append("isActive", isActive)
+                .append("firstLogin", firstLogin)
+                .append("penaltyNumber", penaltyNumber)
+                .append("loyaltyProgram", loyaltyProgram)
+                .append("centerAccount", centerAccount)
+                .toString();
+    }
+
+
 }
