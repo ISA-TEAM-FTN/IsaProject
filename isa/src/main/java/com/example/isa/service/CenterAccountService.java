@@ -1,6 +1,6 @@
 package com.example.isa.service;
 
-import com.example.isa.controller.dto.CenterAccountDto;
+import com.example.isa.dto.CenterAccountDto;
 import com.example.isa.model.CenterAccount;
 import com.example.isa.repository.CenterAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package com.example.isa.controller;
 
-import com.example.isa.controller.dto.CenterAccountDto;
-import com.example.isa.controller.exception.NotFoundException;
-import com.example.isa.controller.exception.UnauthorizedException;
+import com.example.isa.dto.CenterAccountDto;
+import com.example.isa.exception.NotFoundException;
+import com.example.isa.exception.UnauthorizedException;
 import com.example.isa.model.CenterAccount;
 import com.example.isa.model.User;
 import com.example.isa.service.CenterAccountService;
@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/centerAccount")
@@ -28,23 +29,23 @@ public class CenterAccountController {
         this.centerAccountService = centerAccountService;
         this.userService = userService;
     }
-
-    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
-    @PutMapping
-    public ResponseEntity<CenterAccount> update(@RequestBody @Valid CenterAccountDto update) {
-        final User user = userService.get(1).orElseThrow(UnauthorizedException::new);
-        final CenterAccount centerAccount = centerAccountService.get(user.getCenterAccount().getId()).orElseThrow(NotFoundException::new);
-        centerAccountService.update(centerAccount, update);
-        return new ResponseEntity<>(centerAccount, HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
-    @GetMapping
-    public ResponseEntity<CenterAccount> get() {
-        final User user = userService.get(1).orElseThrow(UnauthorizedException::new);
-        final CenterAccount centerAccount = centerAccountService.get(user.getCenterAccount().getId()).orElseThrow(NotFoundException::new);
-        return new ResponseEntity<>(centerAccount, HttpStatus.OK);
-    }
+//
+//    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
+//    @PutMapping
+//    public ResponseEntity<CenterAccount> update(@RequestBody @Valid CenterAccountDto update, @AuthenticationPrincipal Principal principal) {
+//        final User user = userService.findByUsername(principal.getName());
+//        final CenterAccount centerAccount = centerAccountService.get(user.getCenterAccount().getId()).orElseThrow(NotFoundException::new);
+//        centerAccountService.update(centerAccount, update);
+//        return new ResponseEntity<>(centerAccount, HttpStatus.OK);
+//    }
+//
+//    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
+//    @GetMapping
+//    public ResponseEntity<CenterAccount> get(@AuthenticationPrincipal Principal principal) {
+//        final User user = userService.findByUsername(principal.getName());
+//        final CenterAccount centerAccount = centerAccountService.get(user.getCenterAccount().getId()).orElseThrow(NotFoundException::new);
+//        return new ResponseEntity<>(centerAccount, HttpStatus.OK);
+//    }
 
 
 }

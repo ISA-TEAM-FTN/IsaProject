@@ -1,45 +1,50 @@
 package com.example.isa.controller;
 
-import com.example.isa.controller.dto.UserRegisterDto;
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.example.isa.exception.NotFoundException;
 import com.example.isa.model.User;
 import com.example.isa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.security.Principal;
 
+// Primer kontrolera cijim metodama mogu pristupiti samo autorizovani korisnici
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin
 public class UserController {
 
-    private final UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+	// Za pristup ovoj metodi neophodno je da ulogovani korisnik ima ADMIN ulogu
+	// Ukoliko nema, server ce vratiti gresku 403 Forbidden
+	// Korisnik jeste autentifikovan, ali nije autorizovan da pristupi resursu
+	@GetMapping("/user/{userId}")
+	@PreAuthorize("hasRole('ADMIN')")	
+	public User loadById(@PathVariable Long userId) {
+		return this.userService.findById(userId).orElseThrow(NotFoundException::new);
+	}
 
+	@GetMapping("/user/all")
+	@PreAuthorize("hasRole('ADMIN')")
+	public List<User> loadAll() {
+		return this.userService.findAll();
+	}
 
-    @GetMapping(path = "/current")
-    public ResponseEntity<User> getCurrent() {
-
-        User user = userService.getCurrent();
-
-        if(user == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
-    @PostMapping(path = "/register")
-    public ResponseEntity<User> register(@Valid @RequestBody UserRegisterDto userRegisterDto) {
-        final User user = userService.register(userRegisterDto);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
-    }
+	@GetMapping("/whoami")
+	@PreAuthorize("hasRole('USER')  or hasRole('ADMIN_CENTER') or hasRole('ADMIN_SYSTEM')")
+	public User user(Principal user) {
+		return this.userService.findByUsername(user.getName());
+	}
 }

@@ -1,42 +1,96 @@
 package com.example.isa.model;
 
-import com.example.isa.model.enums.Gender;
-import com.example.isa.model.enums.UserTypes;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
-@Entity
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String email;
-    private String password;
-    private String name;
-    private String surname;
+import com.example.isa.model.enums.Gender;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-    @Enumerated(EnumType.STRING)
-    private UserTypes userTypes;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+// POJO koji implementira Spring Security UserDetails interfejs koji specificira
+// osnovne osobine Spring korisnika (koje role ima, da li je nalog zakljucan, istekao, da li su kredencijali istekli)
+@Entity
+@Table(name="USERS")
+public class User implements UserDetails {
+
+	private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "email" ,unique = true)
+    private String email;
+
+    @JsonIgnore
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @Column(name = "last_password_reset_date")
+    private Timestamp lastPasswordResetDate;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
 
     @OneToOne
     private Address address;
+
+    @Column(name = "telephone_number")
     private String telephoneNumber;
+
+    @Column(name = "personal_id")
     private String personalId;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
     private Gender gender;
+
+    @Column(name = "occupation")
     private String occupation;
+
+    @Column(name = "occupation_info")
     private String occupationInfo;
+
+    @Column(name = "is_active")
     private boolean isActive;
+
+    @Column(name = "first_login")
     private boolean firstLogin;
+
+    @Column(name = "penalty_number")
     private int penaltyNumber;
 
     @ManyToOne
     private LoyaltyProgram loyaltyProgram; //Patient (ManyToOne)
     @ManyToOne
-    private CenterAccount centerAccount; //Center account has more users, user has one center account (ManyToOne)
+    private CenterAccount centerAccount; //Center account
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -50,32 +104,47 @@ public class User {
         return password;
     }
 
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
     public void setPassword(String password) {
+        Timestamp now = new Timestamp(new Date().getTime());
+        this.setLastPasswordResetDate(now);
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public UserTypes getUserType() {
-        return userTypes;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+    
+    public List<Role> getRoles() {
+       return roles;
     }
 
-    public void setUserType(UserTypes userTypes) {
-        this.userTypes = userTypes;
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getTelephoneNumber() {
@@ -123,7 +192,7 @@ public class User {
     }
 
     public void setActive(boolean active) {
-        this.isActive = active;
+        isActive = active;
     }
 
     public boolean isFirstLogin() {
@@ -142,14 +211,6 @@ public class User {
         this.penaltyNumber = penaltyNumber;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public LoyaltyProgram getLoyaltyProgram() {
         return loyaltyProgram;
     }
@@ -166,44 +227,46 @@ public class User {
         this.centerAccount = centerAccount;
     }
 
-    public UserTypes getUserTypes() {
-        return userTypes;
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles;
     }
 
-    public void setUserTypes(UserTypes userTypes) {
-        this.userTypes = userTypes;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
 
     @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-                .append("id", id)
-                .append("email", email)
-                .append("password", password)
-                .append("name", name)
-                .append("surname", surname)
-                .append("userTypes", userTypes)
-                .append("address", address)
-                .append("telephoneNumber", telephoneNumber)
-                .append("personalId", personalId)
-                .append("gender", gender)
-                .append("occupation", occupation)
-                .append("occupationInfo", occupationInfo)
-                .append("isActive", isActive)
-                .append("firstLogin", firstLogin)
-                .append("penaltyNumber", penaltyNumber)
-                .append("loyaltyProgram", loyaltyProgram)
-                .append("centerAccount", centerAccount)
-                .toString();
+    public boolean isEnabled() {
+        return enabled;
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
 }
