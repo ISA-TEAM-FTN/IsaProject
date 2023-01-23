@@ -55,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 .authorizeRequests().antMatchers("/api/users/register").permitAll()
+                .antMatchers("/api/center/search").permitAll()
 
                 .anyRequest().authenticated().and()
 
@@ -73,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST, "/api/users/login", "/api/users/register");
-        web.ignoring().antMatchers(HttpMethod.GET, "/");
+        web.ignoring().antMatchers(HttpMethod.GET, "/","/api/center/search");
         web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 }

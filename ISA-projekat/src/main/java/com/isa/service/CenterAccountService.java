@@ -7,6 +7,7 @@ import com.isa.repository.CenterAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,4 +31,6 @@ public class CenterAccountService {
     public Optional<CenterAccount> get(long id) {
         return centerAccountRepository.findById(id);
     }
+
+    public List<CenterAccount> list(String name) {return centerAccountRepository.findByName(name);}
 }
