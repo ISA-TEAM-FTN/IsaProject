@@ -8,12 +8,16 @@ import com.isa.domain.dto.UserDTO;
 import com.isa.domain.model.User;
 import com.isa.enums.Role;
 import com.isa.security.TokenUtil;
-import com.isa.service.user.UserService;
+import com.isa.service.AppointmentService;
+import com.isa.service.CenterAccountService;
+import com.isa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
@@ -30,6 +34,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CenterAccountService centerAccountService;
+
+    @Autowired
+    private AppointmentService appointmentService;
 
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
@@ -50,7 +60,7 @@ public class UserController {
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
         User user = userService.register(userDTO);
 
-        if(user == null) {
+        if (user == null) {
             return ResponseEntity.ok(HttpStatus.BAD_REQUEST);
         }
 
@@ -61,7 +71,7 @@ public class UserController {
     public ResponseEntity<?> add(@RequestBody UserDTO userDTO) {
         User user = userService.add(userDTO);
 
-        if(user == null) {
+        if (user == null) {
             return ResponseEntity.ok(HttpStatus.BAD_REQUEST);
         }
 
@@ -81,21 +91,6 @@ public class UserController {
     @PutMapping(path = "/update-profile")
     public ResponseEntity<?> updateProfile(@RequestBody UserDTO userDTO) {
         return new ResponseEntity<>(userService.updateProfile(userDTO), HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/pharmacies")
-    public ResponseEntity<?> getPharmacies() {
-        return new ResponseEntity<>(userService.findAllByRole(Role.ADMIN_CENTER), HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/pharmacy-admins")
-    public ResponseEntity<?> getPharmacyAdmins() {
-        return new ResponseEntity<>(userService.findAllByRole(Role.USER), HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/doctors")
-    public ResponseEntity<?> getDoctors() {
-        return new ResponseEntity<>(userService.findAllByRole(Role.ADMIN_SYSTEM), HttpStatus.OK);
     }
 
     @GetMapping(path = "/search")

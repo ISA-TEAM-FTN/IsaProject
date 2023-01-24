@@ -1,24 +1,17 @@
 package com.isa.domain.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Entity;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 public class CenterAccount extends AbstractEntity {
     private String name;
-
     private String description;
     private double averageRating;
-
     private String address;
-
     private String city;
-
     private String country;
     private LocalTime startTime;
-
     private LocalTime endTime;
 
     public String getName() {

@@ -1,6 +1,5 @@
 package com.isa.security;
 
-import com.isa.domain.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

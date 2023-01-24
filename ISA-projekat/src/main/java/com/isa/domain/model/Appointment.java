@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import java.time.Instant;
 
 @Entity
 @NoArgsConstructor
@@ -15,20 +15,22 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class Appointment extends AbstractEntity {
 
-    @NotNull
-    private String date;
+    @ManyToOne
+    private CenterAccount centerAccount; //center account has more appointments manyToOne
 
-    @NotNull
-    private String duration;
+    private Instant dateAndTime;
 
-    @NotNull
-    private String description;
+    private int duration;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    private User doctor;
+    @JoinColumn(name = "admin_id")
+    private User adminOfCenter;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private User patient;
+
+    @ManyToOne
+    @JoinColumn(name = "poll_id")
+    private Poll poll;
 }

@@ -16,7 +16,7 @@ public class MigrationConfiguration {
     }
 
     @Bean
-    //@DependsOn("entityManagerFactory")
+        //@DependsOn("entityManagerFactory")
     FlywayMigrationInitializer delayedFlywayInitializer(Flyway flyway) {
         return new FlywayMigrationInitializer(flyway, null);
     }

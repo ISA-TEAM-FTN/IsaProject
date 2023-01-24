@@ -2,12 +2,14 @@ package com.isa.domain.model;
 
 import com.isa.enums.Gender;
 import com.isa.enums.Role;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 
@@ -46,22 +48,21 @@ public class User extends AbstractEntity {
 
     @NotNull
     private boolean firstLogin;
-    
+
     @Enumerated(EnumType.STRING)
     private Role role;
-    
+
     private String personalId;
-    
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    
+
     private String occupation;
 
     private String occupationInfo;
 
     @ManyToOne
     private CenterAccount centerAccount;
-    
-    
+
 
 }

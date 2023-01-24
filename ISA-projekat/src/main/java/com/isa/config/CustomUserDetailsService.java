@@ -47,7 +47,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         Optional<User> user = userRepository.findOneByEmail(principle.getUsername());
 
-        if(!user.isPresent()) {
+        if (!user.isPresent()) {
             return authorities;
         }
 

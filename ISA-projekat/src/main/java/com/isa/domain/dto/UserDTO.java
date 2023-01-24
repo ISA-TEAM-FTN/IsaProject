@@ -1,12 +1,9 @@
 package com.isa.domain.dto;
 
 import com.isa.domain.model.User;
-import com.isa.enums.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @Getter
