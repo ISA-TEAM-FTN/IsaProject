@@ -74,30 +74,6 @@ public class UserService {
         return userRepository.findAllByCenterAccount(centerAccount);
     }
 
-    public User add(UserDTO userDTO) {
-
-        User user = userRepository.getByEmail(userDTO.getEmail());
-
-        if (user != null) {
-            return null;
-        }
-
-        user = new User();
-        user.setEmail(userDTO.getEmail());
-        ;
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setRole(userDTO.getRole());
-        user.setAddress(userDTO.getAddress());
-        user.setCity(userDTO.getCity());
-        user.setCountry(userDTO.getCountry());
-        user.setFirstLogin(true);
-        user.setPhone(userDTO.getPhone());
-
-        return userRepository.save(user);
-    }
-
     public Role stringToRole(String role) {
 
         return Role.valueOf(role);

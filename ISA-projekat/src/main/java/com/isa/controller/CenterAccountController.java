@@ -59,22 +59,39 @@ public class CenterAccountController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/admins-of-center")
-    public ResponseEntity<List<User>> getAdminsOfCenter(@RequestParam long centerAccountId) {
-        final CenterAccount centerAccount = centerAccountService.get(centerAccountId).orElseThrow(NotFoundException::new);
+    @GetMapping(path = "/admins-of-center/{id}")
+    public ResponseEntity<List<User>> getAdminsOfCenter(@PathVariable long id) {
+        final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
         return new ResponseEntity<>(userService.getAllByCenterAccount(centerAccount), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/appointments")
-    public ResponseEntity<List<Appointment>> getAppointments(@RequestParam long centerAccountId) {
-        final CenterAccount centerAccount = centerAccountService.get(centerAccountId).orElseThrow(NotFoundException::new);
+    @GetMapping(path = "/appointments/{id}")
+    public ResponseEntity<List<Appointment>> getAppointments(@PathVariable long id) {
+        final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
         return new ResponseEntity<>(appointmentService.getFreeAppointments(centerAccount), HttpStatus.OK);
     }
+    @GetMapping("/blood-A/{id}")
+    public ResponseEntity<Blood> getBloodAType(@PathVariable long id) {
+        final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
+        return new ResponseEntity<>(bloodService.getAllBloodTypeAByCenterAccount(centerAccount), HttpStatus.OK);
+    }
 
-    @GetMapping("/blood")
-    public ResponseEntity<List<Blood>> getBlood(@RequestParam long centerAccountId) {
-        final CenterAccount centerAccount = centerAccountService.get(centerAccountId).orElseThrow(NotFoundException::new);
-        return new ResponseEntity<>(bloodService.getAllByCenterAccount(centerAccount), HttpStatus.OK);
+    @GetMapping("/blood-B/{id}")
+    public ResponseEntity<Blood> getBloodBType(@PathVariable long id) {
+        final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
+        return new ResponseEntity<>(bloodService.getAllBloodTypeABByCenterAccount(centerAccount), HttpStatus.OK);
+    }
+
+    @GetMapping("/blood-AB/{id}")
+    public ResponseEntity<Blood> getBloodABType(@PathVariable long id) {
+        final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
+        return new ResponseEntity<>(bloodService.getAllBloodTypeABByCenterAccount(centerAccount), HttpStatus.OK);
+    }
+
+    @GetMapping("/blood-0/{id}")
+    public ResponseEntity<Blood> getBlood0Type(@PathVariable long id) {
+        final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
+        return new ResponseEntity<>(bloodService.getAllBloodType0ByCenterAccount(centerAccount), HttpStatus.OK);
     }
 
 }

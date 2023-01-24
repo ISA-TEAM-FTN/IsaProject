@@ -67,17 +67,6 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/add")
-    public ResponseEntity<?> add(@RequestBody UserDTO userDTO) {
-        User user = userService.add(userDTO);
-
-        if (user == null) {
-            return ResponseEntity.ok(HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
     @GetMapping(path = "/current")
     public ResponseEntity<?> getCurrentUser() {
         return new ResponseEntity<>(userService.getCurrentUser(), HttpStatus.OK);

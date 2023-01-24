@@ -8,6 +8,7 @@ import com.isa.repository.CenterAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +27,10 @@ public class CenterAccountService {
 
     public CenterAccount update(CenterAccount centerAccount, CenterAccountDto centerAccountDto) {
         centerAccount.setName(centerAccountDto.getName());
-        centerAccount.setAddress(centerAccount.getAddress());
+        centerAccount.setAddress(centerAccountDto.getAddress());
         centerAccount.setDescription(centerAccountDto.getDescription());
+        centerAccount.setStartTime(LocalTime.parse(centerAccountDto.getStartTime()));
+        centerAccount.setEndTime(LocalTime.parse(centerAccountDto.getEndTime()));
         centerAccountRepository.save(centerAccount);
         return centerAccount;
     }
