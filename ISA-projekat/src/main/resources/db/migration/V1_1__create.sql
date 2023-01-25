@@ -17,8 +17,10 @@ CREATE TABLE `center_account`
     PRIMARY KEY (id)
 );
 
-INSERT INTO `center_account`(date_created,date_updated,deleted,name, description, average_rating, address, city, country, start_time, `end_time`)
-values ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'Center1', 'Description', 12.5, 'Address1', 'City1', 'Country1', '10:34:21', '18:34:23');
+INSERT INTO `center_account`(date_created, date_updated, deleted, name, description, average_rating, address, city,
+                             country, start_time, `end_time`)
+values ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 'Center1', 'Description', 12.5, 'Address1', 'City1',
+        'Country1', '10:34:21', '18:34:23');
 
 DROP TABLE IF EXISTS `user`;
 
@@ -47,7 +49,55 @@ CREATE TABLE `user`
     FOREIGN KEY (`center_account_id`) REFERENCES center_account (id)
 );
 
+DROP TABLE IF EXISTS `poll`;
+CREATE TABLE `poll`
+(
+    `id`           bigint(20) NOT NULL AUTO_INCREMENT,
+    `date_created` datetime   NOT NULL,
+    `date_updated` datetime DEFAULT NULL,
+    `deleted`      bit(1)     NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `appointment`;
+CREATE TABLE `appointment`
+(
+    `id`            bigint(20) NOT NULL AUTO_INCREMENT,
+    `date_created`  datetime   NOT NULL,
+    `date_updated`  datetime DEFAULT NULL,
+    `deleted`       bit(1)     NOT NULL,
+    `date_and_time` datetime,
+    `admin_id`      bigint(20),
+    `duration`      bigint(20),
+    `patient_id`    bigint(20),
+    `poll_id`       bigint(20),
+    `center_account_id` bigint(20),
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`admin_id`) REFERENCES User (id),
+    FOREIGN KEY (`patient_id`) REFERENCES User (id),
+    FOREIGN KEY (`poll_id`) REFERENCES Poll (id),
+    FOREIGN KEY (`center_account_id`) REFERENCES center_account (id)
+);
+
+DROP TABLE IF EXISTS `feedback`;
+CREATE TABLE `feedback`
+(
+    `id`             bigint(20) NOT NULL AUTO_INCREMENT,
+    `date_created`   datetime   NOT NULL,
+    `date_updated`   datetime DEFAULT NULL,
+    `deleted`        bit(1)     NOT NULL,
+    `grade`          bigint(20),
+    `comment`        varchar(255),
+    `user_id`        bigint(20),
+    `appointment_id` bigint(20),
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES User (id),
+    FOREIGN KEY (`appointment_id`) REFERENCES Appointment (id)
+)
+;
+
 insert into `user`(date_created, date_updated, deleted, email, first_name, password, address, country, city, phone,
                    role, last_name, first_login, personal_id, gender, occupation, occupation_info, center_account_id)
-VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 'nebojsa@gmail.com', 'Nebojsa', '$2a$12$uS5REK6ftoMpYcQdEyFA4et02OP22Fkvebbs5SHEeT.hM/hd5QRg2
-', 'a', 'c', 'c', 'p', 'ADMIN_CENTER', 'Bogosavljev', false, '3213213', 'MALE', '', '', 1)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 'nebojsa@gmail.com', 'Nebojsa',
+        '$2a$10$36dVOozCi/zxI01Lph5KVODLdutdC7LKbRj/YHU7uz23eRxgxM.na', 'a', 'c', 'c', 'p', 'ADMIN_CENTER',
+        'Bogosavljev', false, '3213213', 'MALE', '', '', 1)

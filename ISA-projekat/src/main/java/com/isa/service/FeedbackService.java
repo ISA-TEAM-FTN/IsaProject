@@ -1,6 +1,6 @@
 package com.isa.service;
 
-import com.isa.domain.model.CenterAccount;
+import com.isa.domain.model.Appointment;
 import com.isa.domain.model.Feedback;
 import com.isa.repository.FeedbackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class FeedbackService {
         this.feedbackRepository = feedbackRepository;
     }
 
-    public List<Feedback> findAllByCenterAccount(CenterAccount centerAccountId) {
-        return feedbackRepository.findByCenterAccount(centerAccountId);
+    public List<Feedback> findAllByAppointment(Appointment appointment) {
+        return feedbackRepository.findByAppointment(appointment);
     }
 }

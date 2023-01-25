@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -62,8 +63,6 @@ public class UserService {
         centerAccount.setEndTime(LocalTime.NOON);
 
         centerAccountRepository.save(centerAccount);
-        centerAccount.setAverageRating(centerAccountService.getAverageRating(centerAccount));
-        centerAccountRepository.save(centerAccount);
 
         user.setCenterAccount(centerAccount);
 
@@ -86,8 +85,8 @@ public class UserService {
         return userRepository.getByEmail(email);
     }
 
-    public User get(long userId) {
-        return userRepository.getById(userId);
+    public Optional<User> get(long userId) {
+        return userRepository.findById(userId);
     }
 
     public User changePassword(ChangePasswordDTO changePasswordDTO) {

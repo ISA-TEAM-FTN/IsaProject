@@ -2,6 +2,7 @@ package com.isa.service;
 
 
 import com.isa.domain.dto.CenterAccountDto;
+import com.isa.domain.model.Appointment;
 import com.isa.domain.model.CenterAccount;
 import com.isa.domain.model.Feedback;
 import com.isa.repository.CenterAccountRepository;
@@ -35,8 +36,8 @@ public class CenterAccountService {
         return centerAccount;
     }
 
-    public Double getAverageRating(CenterAccount centerAccount) {
-        final List<Feedback> allByCenterAccount = feedbackService.findAllByCenterAccount(centerAccount);
+    public Double getAverageRating(Appointment appointment) {
+        final List<Feedback> allByCenterAccount = feedbackService.findAllByAppointment(appointment);
         return allByCenterAccount.stream()
                 .mapToDouble(Feedback::getGrade)
                 .average()

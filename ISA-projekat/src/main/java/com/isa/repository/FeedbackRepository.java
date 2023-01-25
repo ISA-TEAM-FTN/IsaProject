@@ -1,5 +1,6 @@
 package com.isa.repository;
 
+import com.isa.domain.model.Appointment;
 import com.isa.domain.model.CenterAccount;
 import com.isa.domain.model.Feedback;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,6 @@ import java.util.List;
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
 
-    List<Feedback> findByCenterAccount(CenterAccount centerAccountId);
+    List<Feedback> findByAppointment(Appointment appointment);
 
 }

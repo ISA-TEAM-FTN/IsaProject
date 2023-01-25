@@ -1,5 +1,6 @@
 package com.isa.controller;
 
+import com.isa.domain.dto.AppointmentDTO;
 import com.isa.domain.dto.CenterAccountDto;
 import com.isa.domain.dto.SearchDto;
 import com.isa.domain.model.Appointment;
@@ -25,9 +26,7 @@ public class CenterAccountController {
 
     private final CenterAccountService centerAccountService;
     private final UserService userService;
-
     private final AppointmentService appointmentService;
-
     private final BloodService bloodService;
 
     @Autowired
@@ -70,6 +69,7 @@ public class CenterAccountController {
         final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
         return new ResponseEntity<>(appointmentService.getFreeAppointments(centerAccount), HttpStatus.OK);
     }
+
     @GetMapping("/blood-A/{id}")
     public ResponseEntity<Blood> getBloodAType(@PathVariable long id) {
         final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
@@ -94,4 +94,9 @@ public class CenterAccountController {
         return new ResponseEntity<>(bloodService.getAllBloodType0ByCenterAccount(centerAccount), HttpStatus.OK);
     }
 
+    @PostMapping("/create-appointment")
+    public ResponseEntity<Appointment> createAppointment(@RequestBody AppointmentDTO appointmentDTO) {
+        final Appointment appointment = appointmentService.create(appointmentDTO);
+        return new ResponseEntity<>(appointment, HttpStatus.CREATED);
+    }
 }

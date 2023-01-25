@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 
@@ -26,6 +23,7 @@ public class User extends AbstractEntity {
     private String password;
 
     @NotNull
+    @Column(unique = true)
     private String email;
 
     @NotNull

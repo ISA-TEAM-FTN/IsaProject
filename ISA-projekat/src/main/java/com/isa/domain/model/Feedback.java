@@ -13,8 +13,8 @@ public class Feedback extends AbstractEntity {
     private User patient;
 
     @OneToOne
-    @JoinColumn(name = "center_account_id")
-    private CenterAccount centerAccount;
+    @JoinColumn(name = "appointment_id")
+    private Appointment appointment;
 
     private String comment;
 

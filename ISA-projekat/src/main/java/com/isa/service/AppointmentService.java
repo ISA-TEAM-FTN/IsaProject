@@ -3,10 +3,12 @@ package com.isa.service;
 import com.isa.domain.dto.AppointmentDTO;
 import com.isa.domain.model.Appointment;
 import com.isa.domain.model.CenterAccount;
+import com.isa.exception.NotFoundException;
 import com.isa.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.List;
 
@@ -22,11 +24,14 @@ public class AppointmentService {
         this.userService = userService;
     }
 
+    @Transactional
     public Appointment create(AppointmentDTO appointmentDTO) {
         final Appointment appointment = new Appointment();
         appointment.setDuration(Integer.parseInt(appointmentDTO.getDuration()));
-        appointment.setAdminOfCenter(userService.get(appointmentDTO.getAdminOfCenterId()));
+        appointment.setAdmin(userService.get(appointmentDTO.getAdminOfCenterId()).orElseThrow(NotFoundException::new));
         appointment.setDateAndTime(Instant.parse(appointmentDTO.getDate()));
+        appointment.setCenterAccount(appointment.getAdmin().getCenterAccount());
+        appointmentRepository.save(appointment);
         return appointment;
     }
 
