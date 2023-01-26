@@ -2,13 +2,12 @@ package com.isa.domain.model;
 
 import com.isa.enums.BloodType;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Blood extends AbstractEntity {
 
+    @Enumerated(EnumType.STRING)
     private BloodType bloodType;
     private double amount;
 

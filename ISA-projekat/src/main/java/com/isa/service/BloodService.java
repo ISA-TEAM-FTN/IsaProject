@@ -7,6 +7,8 @@ import com.isa.repository.BloodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BloodService {
 
@@ -18,7 +20,8 @@ public class BloodService {
     }
 
     public Blood getAllBloodTypeAByCenterAccount(CenterAccount centerAccount) {
-        double sumOfABloodType = bloodRepository.findBloodByCenterAccount(centerAccount).stream()
+        List<Blood> bloodByCenterAccountId = bloodRepository.findBloodByCenterAccountId(centerAccount.getId());
+        double sumOfABloodType = bloodByCenterAccountId.stream()
                 .filter(blood -> blood.getBloodType() == BloodType.A)
                 .map(Blood::getAmount)
                 .mapToDouble(Double::doubleValue)
@@ -31,7 +34,7 @@ public class BloodService {
     }
 
     public Blood getAllBloodTypeBByCenterAccount(CenterAccount centerAccount) {
-        double sumOfBBloodType = bloodRepository.findBloodByCenterAccount(centerAccount).stream()
+        double sumOfBBloodType = bloodRepository.findBloodByCenterAccountId(centerAccount.getId()).stream()
                 .filter(blood -> blood.getBloodType() == BloodType.B)
                 .map(Blood::getAmount)
                 .mapToDouble(Double::doubleValue)
@@ -44,7 +47,7 @@ public class BloodService {
     }
 
     public Blood getAllBloodTypeABByCenterAccount(CenterAccount centerAccount) {
-        double sumOfABBloodType = bloodRepository.findBloodByCenterAccount(centerAccount).stream()
+        double sumOfABBloodType = bloodRepository.findBloodByCenterAccountId(centerAccount.getId()).stream()
                 .filter(blood -> blood.getBloodType() == BloodType.AB)
                 .map(Blood::getAmount)
                 .mapToDouble(Double::doubleValue)
@@ -57,7 +60,7 @@ public class BloodService {
     }
 
     public Blood getAllBloodType0ByCenterAccount(CenterAccount centerAccount) {
-        double sumOf0BloodType = bloodRepository.findBloodByCenterAccount(centerAccount).stream()
+        double sumOf0BloodType = bloodRepository.findBloodByCenterAccountId(centerAccount.getId()).stream()
                 .filter(blood -> blood.getBloodType() == BloodType.ZERO)
                 .map(Blood::getAmount)
                 .mapToDouble(Double::doubleValue)

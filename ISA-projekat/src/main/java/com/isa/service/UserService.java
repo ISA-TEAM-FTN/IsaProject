@@ -5,6 +5,7 @@ import com.isa.domain.dto.ChangePasswordDTO;
 import com.isa.domain.dto.UserDTO;
 import com.isa.domain.model.CenterAccount;
 import com.isa.domain.model.User;
+import com.isa.enums.Gender;
 import com.isa.enums.Role;
 import com.isa.repository.CenterAccountRepository;
 import com.isa.repository.UserRepository;
@@ -70,7 +71,7 @@ public class UserService {
     }
 
     public List<User> getAllByCenterAccount(CenterAccount centerAccount) {
-        return userRepository.findAllByCenterAccount(centerAccount);
+        return userRepository.findAllByCenterAccountId(centerAccount.getId());
     }
 
     public Role stringToRole(String role) {
@@ -116,7 +117,10 @@ public class UserService {
         user.setCountry(userDTO.getCountry());
         user.setFirstLogin(true);
         user.setPhone(userDTO.getPhone());
-
+        user.setOccupationInfo(userDTO.getOccupationInfo());
+        user.setOccupation(userDTO.getOccupation());
+        user.setPersonalId(userDTO.getPersonalId());
+        user.setGender(Gender.valueOf(userDTO.getGender()));
         return userRepository.save(user);
     }
 

@@ -93,11 +93,54 @@ CREATE TABLE `feedback`
     PRIMARY KEY (`id`),
     FOREIGN KEY (`user_id`) REFERENCES User (id),
     FOREIGN KEY (`appointment_id`) REFERENCES Appointment (id)
-)
-;
+);
+
+CREATE TABLE `blood`
+(
+    `id`             bigint(20) NOT NULL AUTO_INCREMENT,
+    `date_created`   datetime   NOT NULL,
+    `date_updated`   datetime DEFAULT NULL,
+    `deleted`        bit(1)     NOT NULL,
+    `blood_type` varchar(255),
+    `amount` decimal(19,4),
+    `center_account_id` bigint(20),
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`center_account_id`) REFERENCES center_account (id)
+);
 
 insert into `user`(date_created, date_updated, deleted, email, first_name, password, address, country, city, phone,
                    role, last_name, first_login, personal_id, gender, occupation, occupation_info, center_account_id)
 VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 'nebojsa@gmail.com', 'Nebojsa',
         '$2a$10$36dVOozCi/zxI01Lph5KVODLdutdC7LKbRj/YHU7uz23eRxgxM.na', 'a', 'c', 'c', 'p', 'ADMIN_CENTER',
-        'Bogosavljev', false, '3213213', 'MALE', '', '', 1)
+        'Bogosavljev', false, '3213213', 'MALE', '', '', 1);
+
+insert into `user`(date_created, date_updated, deleted, email, first_name, password, address, country, city, phone,
+                   role, last_name, first_login, personal_id, gender, occupation, occupation_info, center_account_id)
+    VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 'test@gmail.com', 'Nebojsa',
+            '$2a$10$36dVOozCi/zxI01Lph5KVODLdutdC7LKbRj/YHU7uz23eRxgxM.na', 'a', 'c', 'c', 'p', 'USER',
+            'Bogosavljev', false, '3213213', 'MALE', '', '', null);
+
+insert into `blood`(date_created, date_updated, deleted, blood_type, amount, center_account_id)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'A',11,1);
+
+insert into `blood`(date_created, date_updated, deleted, blood_type, amount, center_account_id)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'A',2,1);
+
+insert into `blood`(date_created, date_updated, deleted, blood_type, amount, center_account_id)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'B',3,1);
+
+insert into `blood`(date_created, date_updated, deleted, blood_type, amount, center_account_id)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'B',4,1);
+
+insert into `blood`(date_created, date_updated, deleted, blood_type, amount, center_account_id)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'AB',1,1);
+
+insert into `blood`(date_created, date_updated, deleted, blood_type, amount, center_account_id)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'AB',2,1);
+
+insert into `blood`(date_created, date_updated, deleted, blood_type, amount, center_account_id)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'ZERO',2,1);
+
+insert into `blood`(date_created, date_updated, deleted, blood_type, amount, center_account_id)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'ZERO',3,1);
+

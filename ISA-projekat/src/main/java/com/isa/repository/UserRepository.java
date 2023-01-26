@@ -23,5 +23,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByRoleAndFirstNameContainsOrLastNameContaining(Role role, String firstName, String lastName);
 
-    List<User> findAllByCenterAccount(CenterAccount centerAccountId);
+    List<User> findAllByCenterAccountId(long centerAccountId);
 }

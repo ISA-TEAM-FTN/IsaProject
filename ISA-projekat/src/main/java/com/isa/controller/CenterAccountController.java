@@ -15,6 +15,7 @@ import com.isa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,6 +38,7 @@ public class CenterAccountController {
         this.bloodService = bloodService;
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
     @PutMapping
     public ResponseEntity<CenterAccount> update(@RequestBody @Valid CenterAccountDto update) {
         final User user = userService.getCurrentUser();
@@ -45,6 +47,7 @@ public class CenterAccountController {
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
     @GetMapping
     public ResponseEntity<CenterAccount> get() {
         final User user = userService.getCurrentUser();
@@ -58,42 +61,49 @@ public class CenterAccountController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
     @GetMapping(path = "/admins-of-center/{id}")
     public ResponseEntity<List<User>> getAdminsOfCenter(@PathVariable long id) {
         final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
         return new ResponseEntity<>(userService.getAllByCenterAccount(centerAccount), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
     @GetMapping(path = "/appointments/{id}")
     public ResponseEntity<List<Appointment>> getAppointments(@PathVariable long id) {
         final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
         return new ResponseEntity<>(appointmentService.getFreeAppointments(centerAccount), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
     @GetMapping("/blood-A/{id}")
     public ResponseEntity<Blood> getBloodAType(@PathVariable long id) {
         final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
         return new ResponseEntity<>(bloodService.getAllBloodTypeAByCenterAccount(centerAccount), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
     @GetMapping("/blood-B/{id}")
     public ResponseEntity<Blood> getBloodBType(@PathVariable long id) {
         final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
-        return new ResponseEntity<>(bloodService.getAllBloodTypeABByCenterAccount(centerAccount), HttpStatus.OK);
+        return new ResponseEntity<>(bloodService.getAllBloodTypeBByCenterAccount(centerAccount), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
     @GetMapping("/blood-AB/{id}")
     public ResponseEntity<Blood> getBloodABType(@PathVariable long id) {
         final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
         return new ResponseEntity<>(bloodService.getAllBloodTypeABByCenterAccount(centerAccount), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
     @GetMapping("/blood-0/{id}")
     public ResponseEntity<Blood> getBlood0Type(@PathVariable long id) {
         final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
         return new ResponseEntity<>(bloodService.getAllBloodType0ByCenterAccount(centerAccount), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
     @PostMapping("/create-appointment")
     public ResponseEntity<Appointment> createAppointment(@RequestBody AppointmentDTO appointmentDTO) {
         final Appointment appointment = appointmentService.create(appointmentDTO);

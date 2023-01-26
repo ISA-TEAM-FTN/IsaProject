@@ -36,8 +36,8 @@ public class AppointmentService {
     }
 
     public List<Appointment> getFreeAppointments(CenterAccount centerAccount) {
-        return appointmentRepository.findAllByCenterAccount(centerAccount).stream()
-                .filter(appointment -> appointment.getPatient().getId() == null)
+        return appointmentRepository.findAllByCenterAccountId(centerAccount.getId()).stream()
+                .filter(appointment -> appointment.getPatient() == null)
                 .toList();
     }
 }

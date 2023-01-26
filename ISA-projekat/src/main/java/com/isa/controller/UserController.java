@@ -81,10 +81,5 @@ public class UserController {
     public ResponseEntity<?> updateProfile(@RequestBody UserDTO userDTO) {
         return new ResponseEntity<>(userService.updateProfile(userDTO), HttpStatus.OK);
     }
-
-    @GetMapping(path = "/search")
-    public ResponseEntity<?> search(@RequestParam String term, @RequestParam Role role) {
-        return new ResponseEntity<>(userService.search(term, role), HttpStatus.OK);
-    }
 }
 

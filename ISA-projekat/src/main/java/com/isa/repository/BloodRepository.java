@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface BloodRepository extends JpaRepository<Blood, Long> {
 
-    List<Blood> findBloodByCenterAccount(CenterAccount centerAccount);
+    List<Blood> findBloodByCenterAccountId(long centerAccountId);
 }
