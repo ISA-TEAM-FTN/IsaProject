@@ -19,6 +19,8 @@ public class UserDTO {
     private String address;
     private String city;
     private String country;
+    private String latitude;
+    private String longitude;
     private String phone;
     private boolean firstLogin;
     private String personalId;

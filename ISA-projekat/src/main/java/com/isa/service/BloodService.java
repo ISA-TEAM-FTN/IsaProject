@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BloodService {
@@ -70,5 +71,14 @@ public class BloodService {
         bloodZeroType.setBloodType(BloodType.ZERO);
         bloodZeroType.setAmount(sumOf0BloodType);
         return bloodZeroType;
+    }
+
+    public Blood create(Blood blood) {
+        final Blood newBlood = new Blood();
+        newBlood.setAmount(blood.getAmount());
+        newBlood.setBloodType(blood.getBloodType());
+        newBlood.setCenterAccount(blood.getCenterAccount());
+        bloodRepository.save(newBlood);
+        return newBlood;
     }
 }
