@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.Instant;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -88,5 +90,14 @@ public class AppointmentService {
         appointmentRepository.save(appointment);
     }
 
+    public List<Appointment> getScheduledAndNotFinishedAppointmentsBasedOnDate(CenterAccount centerAccount, String date) {
+        final DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-M-d");
+        final LocalDate ldt = LocalDate.parse(date, f);
+
+        return appointmentRepository.findAllByCenterAccountId(centerAccount.getId()).stream()
+                .filter(appointment -> appointment.getPatient() != null && !appointment.isCompletedAppointment()
+                && appointment.getDateAndTime().atOffset(ZoneOffset.UTC).toLocalDate().equals(ldt))
+                .toList();
+    }
 
 }

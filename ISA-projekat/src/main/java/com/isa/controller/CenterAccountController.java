@@ -150,4 +150,12 @@ public class CenterAccountController {
         return new ResponseEntity<>(equipmentService.getAll(), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
+    @PostMapping(path = "/appointments-date")
+    public ResponseEntity<List<Appointment>> getAppointmentsFromDate(@RequestBody AppointmentDateDto appointmentDateDto)  {
+        final CenterAccount centerAccount = centerAccountService.get(appointmentDateDto.getCenterAccountId()).orElseThrow(NotFoundException::new);
+        final List<Appointment> appointments = appointmentService.getScheduledAndNotFinishedAppointmentsBasedOnDate(centerAccount, appointmentDateDto.getDate());
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
+    }
+
 }

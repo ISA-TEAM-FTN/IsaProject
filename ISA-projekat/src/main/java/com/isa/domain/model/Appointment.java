@@ -3,6 +3,8 @@ package com.isa.domain.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -37,4 +39,17 @@ public class Appointment extends AbstractEntity {
     private Poll poll;
 
     private boolean completedAppointment;
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("centerAccount", centerAccount)
+                .append("dateAndTime", dateAndTime)
+                .append("duration", duration)
+                .append("admin", admin)
+                .append("patient", patient)
+                .append("poll", poll)
+                .append("completedAppointment", completedAppointment)
+                .toString();
+    }
 }
