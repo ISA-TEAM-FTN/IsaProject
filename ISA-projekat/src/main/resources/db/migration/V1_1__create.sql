@@ -45,6 +45,7 @@ CREATE TABLE `user`
     `occupation`        varchar(255),
     `occupation_info`   varchar(255),
     `center_account_id` bigint(20),
+    `points` decimal(19, 4),
     PRIMARY KEY (`id`),
     FOREIGN KEY (`center_account_id`) REFERENCES center_account (id)
 );
@@ -72,6 +73,7 @@ CREATE TABLE `appointment`
     `patient_id`    bigint(20),
     `poll_id`       bigint(20),
     `center_account_id` bigint(20),
+    `completed_appointment` bit(1),
     PRIMARY KEY (`id`),
     FOREIGN KEY (`admin_id`) REFERENCES User (id),
     FOREIGN KEY (`patient_id`) REFERENCES User (id),
@@ -109,16 +111,28 @@ CREATE TABLE `blood`
 );
 
 insert into `user`(date_created, date_updated, deleted, email, first_name, password, address, country, city, phone,
-                   role, last_name, first_login, personal_id, gender, occupation, occupation_info, center_account_id)
+                   role, last_name, first_login, personal_id, gender, occupation, occupation_info, center_account_id,points)
 VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 'nebojsa@gmail.com', 'Nebojsa',
         '$2a$10$36dVOozCi/zxI01Lph5KVODLdutdC7LKbRj/YHU7uz23eRxgxM.na', 'a', 'c', 'c', 'p', 'ADMIN_CENTER',
-        'Bogosavljev', false, '3213213', 'MALE', '', '', 1);
+        'Bogosavljev', false, '3213213', 'MALE', '', '', 1,0);
 
 insert into `user`(date_created, date_updated, deleted, email, first_name, password, address, country, city, phone,
-                   role, last_name, first_login, personal_id, gender, occupation, occupation_info, center_account_id)
-    VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 'test@gmail.com', 'Nebojsa',
+                   role, last_name, first_login, personal_id, gender, occupation, occupation_info, center_account_id,points)
+    VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 'test@gmail.com', 'Marko',
             '$2a$10$36dVOozCi/zxI01Lph5KVODLdutdC7LKbRj/YHU7uz23eRxgxM.na', 'a', 'c', 'c', 'p', 'USER',
-            'Bogosavljev', false, '3213213', 'MALE', '', '', null);
+            'Markovic', false, '3213213', 'MALE', '', '', null,0);
+
+insert into `user`(date_created, date_updated, deleted, email, first_name, password, address, country, city, phone,
+                   role, last_name, first_login, personal_id, gender, occupation, occupation_info, center_account_id,points)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 'test2@gmail.com', 'Bojan',
+        '$2a$10$36dVOozCi/zxI01Lph5KVODLdutdC7LKbRj/YHU7uz23eRxgxM.na', 'a', 'c', 'c', 'p', 'USER',
+        'Braun', false, '3213213', 'MALE', '', '', null,0);
+
+insert into `user`(date_created, date_updated, deleted, email, first_name, password, address, country, city, phone,
+                   role, last_name, first_login, personal_id, gender, occupation, occupation_info, center_account_id,points)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 'test3@gmail.com', 'Igor',
+        '$2a$10$36dVOozCi/zxI01Lph5KVODLdutdC7LKbRj/YHU7uz23eRxgxM.na', 'a', 'c', 'c', 'p', 'USER',
+        'igic', false, '3213213', 'MALE', '', '', null,0);
 
 insert into `blood`(date_created, date_updated, deleted, blood_type, amount, center_account_id)
 VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'A',11,1);
@@ -143,4 +157,26 @@ VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'ZERO',2,1);
 
 insert into `blood`(date_created, date_updated, deleted, blood_type, amount, center_account_id)
 VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'ZERO',3,1);
+
+insert into `appointment`(date_created, date_updated, deleted, date_and_time, admin_id, duration, patient_id, poll_id, center_account_id, completed_appointment)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'2023-04-22 10:34:23',1,12,2,null,1,true);
+
+insert into `appointment`(date_created, date_updated, deleted, date_and_time, admin_id, duration, patient_id, poll_id, center_account_id, completed_appointment)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'2023-06-22 10:34:23',1,12,3,null,1,true);
+
+insert into `appointment`(date_created, date_updated, deleted, date_and_time, admin_id, duration, patient_id, poll_id, center_account_id, completed_appointment)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'2023-05-22 10:34:23',1,12,4,null,1,true);
+
+insert into `appointment`(date_created, date_updated, deleted, date_and_time, admin_id, duration, patient_id, poll_id, center_account_id, completed_appointment)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,'2023-05-22 10:34:23',1,12,4,null,1,false);
+
+insert into `appointment`(date_created, date_updated, deleted, date_and_time, admin_id, duration, patient_id, poll_id, center_account_id, completed_appointment)
+VALUES ('2022-04-22 10:34:23', '2022-04-11 10:34:23	', false,'2023-05-22 10:34:23',1,12,4,null,1,false);
+
+insert into `feedback`(date_created, date_updated, deleted, grade, comment, user_id, appointment_id)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,5,'bla',2,1);
+
+insert into `feedback`(date_created, date_updated, deleted, grade, comment, user_id, appointment_id)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false,11,'bla',2,1);
+
 

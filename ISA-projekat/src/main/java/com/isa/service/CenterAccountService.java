@@ -7,6 +7,7 @@ import com.isa.domain.model.CenterAccount;
 import com.isa.domain.model.Feedback;
 import com.isa.repository.CenterAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -21,7 +22,7 @@ public class CenterAccountService {
     private final FeedbackService feedbackService;
 
     @Autowired
-    public CenterAccountService(CenterAccountRepository centerAccountRepository, FeedbackService feedbackService) {
+    public CenterAccountService(CenterAccountRepository centerAccountRepository, @Lazy FeedbackService feedbackService) {
         this.centerAccountRepository = centerAccountRepository;
         this.feedbackService = feedbackService;
     }
@@ -50,5 +51,9 @@ public class CenterAccountService {
 
     public List<CenterAccount> list(String name) {
         return centerAccountRepository.findByName(name);
+    }
+
+    public void save(CenterAccount centerAccount) {
+        centerAccountRepository.save(centerAccount);
     }
 }

@@ -72,6 +72,11 @@ public class UserController {
         return new ResponseEntity<>(userService.getCurrentUser(), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<?> getUser(@PathVariable long id) {
+        return new ResponseEntity<>(userService.get(id), HttpStatus.OK);
+    }
+
     @PutMapping(path = "/change-password")
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
         return new ResponseEntity<>(userService.changePassword(changePasswordDTO), HttpStatus.OK);

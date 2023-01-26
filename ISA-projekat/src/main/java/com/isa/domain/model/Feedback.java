@@ -41,4 +41,12 @@ public class Feedback extends AbstractEntity {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
 }

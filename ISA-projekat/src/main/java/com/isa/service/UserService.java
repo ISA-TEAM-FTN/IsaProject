@@ -3,6 +3,7 @@ package com.isa.service;
 import com.isa.config.SecurityUtils;
 import com.isa.domain.dto.ChangePasswordDTO;
 import com.isa.domain.dto.UserDTO;
+import com.isa.domain.model.Appointment;
 import com.isa.domain.model.CenterAccount;
 import com.isa.domain.model.User;
 import com.isa.enums.Gender;
@@ -32,6 +33,9 @@ public class UserService {
 
     @Autowired
     private CenterAccountService centerAccountService;
+
+    @Autowired
+    private AppointmentService appointmentService;
 
     @Transactional
     public User register(UserDTO userDTO) {
@@ -130,5 +134,14 @@ public class UserService {
 
     public List<User> search(String term, Role role) {
         return userRepository.findAllByRoleAndFirstNameContainsOrLastNameContaining(role, term, term);
+    }
+
+    @Transactional
+    public void lowerUserPoints(Appointment appointment) {
+        final User patient = appointment.getPatient();
+        patient.setPoints(patient.getPoints() - 1);
+        userRepository.save(patient);
+        appointment.setPatient(null);
+        appointmentService.save(appointment);
     }
 }

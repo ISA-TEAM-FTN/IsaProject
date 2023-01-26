@@ -3,6 +3,7 @@ package com.isa.service;
 import com.isa.domain.dto.AppointmentDTO;
 import com.isa.domain.model.Appointment;
 import com.isa.domain.model.CenterAccount;
+import com.isa.domain.model.User;
 import com.isa.exception.NotFoundException;
 import com.isa.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService {
@@ -37,7 +41,52 @@ public class AppointmentService {
 
     public List<Appointment> getFreeAppointments(CenterAccount centerAccount) {
         return appointmentRepository.findAllByCenterAccountId(centerAccount.getId()).stream()
-                .filter(appointment -> appointment.getPatient() == null)
+                .filter(appointment -> appointment.getPatient() == null  && appointment.getDateAndTime().isAfter(Instant.now()))
                 .toList();
     }
+
+    public List<Appointment> getScheduledAndNotFinishedAppointments(CenterAccount centerAccount) {
+        return appointmentRepository.findAllByCenterAccountId(centerAccount.getId()).stream()
+                .filter(appointment -> appointment.getPatient() != null && !appointment.isCompletedAppointment())
+                .toList();
+    }
+
+    public void removeUserFromAppointment(long appointmentId) {
+        final Appointment appointment = appointmentRepository.getById(appointmentId);
+        appointment.setPatient(null);
+        appointmentRepository.save(appointment);
+    }
+
+    public List<Appointment> getScheduledAndFinishedAppointments(CenterAccount centerAccount, String sort) {
+        final List<Appointment> appointments = appointmentRepository.findAllByCenterAccountId(centerAccount.getId()).stream()
+                .filter(appointment -> appointment.getPatient() != null && appointment.isCompletedAppointment())
+                .toList();
+
+        return switch (sort) {
+            case "NAME" -> appointmentRepository.findAllByCenterAccountId(centerAccount.getId()).stream()
+                    .filter(appointment -> appointment.getPatient() != null && appointment.isCompletedAppointment())
+                    .sorted(Comparator.comparing(o -> o.getPatient().getFirstName())).
+                    collect(Collectors.toList());
+            case "SURNAME" -> appointmentRepository.findAllByCenterAccountId(centerAccount.getId()).stream()
+                    .filter(appointment -> appointment.getPatient() != null && appointment.isCompletedAppointment())
+                    .sorted(Comparator.comparing(o -> o.getPatient().getLastName())).
+                    collect(Collectors.toList());
+            case "DATE" -> appointmentRepository.findAllByCenterAccountId(centerAccount.getId()).stream()
+                    .filter(appointment -> appointment.getPatient() != null && appointment.isCompletedAppointment())
+                    .sorted(Comparator.comparing(Appointment::getDateAndTime)).
+                    collect(Collectors.toList());
+            default -> appointments;
+        };
+
+    }
+
+    public Optional<Appointment> get(long id) {
+        return appointmentRepository.findById(id);
+    }
+
+    public void save(Appointment appointment) {
+        appointmentRepository.save(appointment);
+    }
+
+
 }

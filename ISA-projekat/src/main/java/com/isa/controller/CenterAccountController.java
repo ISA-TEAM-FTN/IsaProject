@@ -1,8 +1,6 @@
 package com.isa.controller;
 
-import com.isa.domain.dto.AppointmentDTO;
-import com.isa.domain.dto.CenterAccountDto;
-import com.isa.domain.dto.SearchDto;
+import com.isa.domain.dto.*;
 import com.isa.domain.model.Appointment;
 import com.isa.domain.model.Blood;
 import com.isa.domain.model.CenterAccount;
@@ -108,5 +106,35 @@ public class CenterAccountController {
     public ResponseEntity<Appointment> createAppointment(@RequestBody AppointmentDTO appointmentDTO) {
         final Appointment appointment = appointmentService.create(appointmentDTO);
         return new ResponseEntity<>(appointment, HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
+    @PostMapping("/scheduled-appointments")
+    public ResponseEntity<List<Appointment>> getScheduledAppointment(@RequestBody SortDto sortDto) {
+        final CenterAccount centerAccount = centerAccountService.get(sortDto.getCenterAccountId()).orElseThrow(NotFoundException::new);
+        final List<Appointment> appointments = appointmentService.getScheduledAndFinishedAppointments(centerAccount, sortDto.getSort());
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
+    @GetMapping("/scheduled-appointments/{id}")
+    public ResponseEntity<List<Appointment>> getScheduledButNotFinishedAppointments(@PathVariable long id) {
+        final CenterAccount centerAccount = centerAccountService.get(id).orElseThrow(NotFoundException::new);
+        final List<Appointment> appointments = appointmentService.getScheduledAndNotFinishedAppointments(centerAccount);
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
+    @PutMapping("/deny-user")
+    public ResponseEntity<Void> deny(@RequestBody DenyUserDto denyUserDto) {
+        final Appointment appointment = appointmentService.get(Long.parseLong(denyUserDto.getId())).orElseThrow(NotFoundException::new);
+        userService.lowerUserPoints(appointment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
+    @GetMapping(path = "/appointment/{id}")
+    public ResponseEntity<?> getAppointement(@PathVariable long id) {
+        return new ResponseEntity<>(appointmentService.get(id), HttpStatus.OK);
     }
 }

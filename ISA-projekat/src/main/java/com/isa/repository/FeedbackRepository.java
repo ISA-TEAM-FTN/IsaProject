@@ -14,6 +14,6 @@ import java.util.List;
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
 
-    List<Feedback> findByAppointment(Appointment appointment);
+    List<Feedback> findByAppointment_CenterAccountId(long centerAccount);
 
 }

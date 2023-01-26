@@ -35,4 +35,6 @@ public class Appointment extends AbstractEntity {
     @OneToOne
     @JoinColumn(name = "poll_id")
     private Poll poll;
+
+    private boolean completedAppointment;
 }

@@ -62,5 +62,7 @@ public class User extends AbstractEntity {
     @ManyToOne
     private CenterAccount centerAccount;
 
+    private double points;
+
 
 }
