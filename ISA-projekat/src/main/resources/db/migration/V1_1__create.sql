@@ -65,6 +65,7 @@ CREATE TABLE `poll`
     `therapy`             bit(1),
     `cycle`               bit(1),
     `dental_intervention` bit(1),
+    `piercing`            bit(1),
     PRIMARY KEY (`id`)
 );
 
@@ -171,17 +172,17 @@ insert into `blood`(date_created, date_updated, deleted, blood_type, amount, cen
 VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 'ZERO', 3, 1);
 
 insert into `poll`(date_created, date_updated, deleted, blood_id, weight, sickness, infection,
-                   pressure, therapy, cycle, dental_intervention)
-VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 1, true, true, true, true, true, true, true);
+                   pressure, therapy, cycle, dental_intervention, piercing)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 1, true, true, true, true, true, true, true, true);
 
 insert into `poll`(date_created, date_updated, deleted, blood_id, weight, sickness, infection,
-                   pressure, therapy, cycle, dental_intervention)
+                   pressure, therapy, cycle, dental_intervention, piercing)
 VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 2, false, false, false, false, false, false,
-        false);
+        false, false);
 
 insert into `poll`(date_created, date_updated, deleted, blood_id, weight, sickness, infection,
-                   pressure, therapy, cycle, dental_intervention)
-VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 3, true, true, true, true, true, true, false);
+                   pressure, therapy, cycle, dental_intervention, piercing)
+VALUES ('2022-04-22 10:34:23', '2022-04-22 10:34:23	', false, 3, true, true, true, true, true, true, false, true);
 
 insert into `appointment`(date_created, date_updated, deleted, date_and_time, admin_id, duration, patient_id, poll_id,
                           center_account_id, completed_appointment)

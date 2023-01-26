@@ -27,7 +27,23 @@ public class Poll extends AbstractEntity {
 
     private boolean dentalIntervention;
 
+    private boolean piercing;
 
+    public Blood getBlood() {
+        return blood;
+    }
+
+    public void setBlood(Blood blood) {
+        this.blood = blood;
+    }
+
+    public boolean isPiercing() {
+        return piercing;
+    }
+
+    public void setPiercing(boolean piercing) {
+        this.piercing = piercing;
+    }
 
     public boolean isWeight() {
         return weight;
