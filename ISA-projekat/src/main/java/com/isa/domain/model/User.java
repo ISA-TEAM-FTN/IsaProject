@@ -41,6 +41,10 @@ public class User extends AbstractEntity {
     @NotNull
     private String country;
 
+    private double latitude;
+
+    private double longitude;
+
     @NotNull
     private String phone;
 

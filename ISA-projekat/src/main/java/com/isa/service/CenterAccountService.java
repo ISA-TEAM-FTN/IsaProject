@@ -30,6 +30,12 @@ public class CenterAccountService {
     public CenterAccount update(CenterAccount centerAccount, CenterAccountDto centerAccountDto) {
         centerAccount.setName(centerAccountDto.getName());
         centerAccount.setAddress(centerAccountDto.getAddress());
+        centerAccount.setCountry(centerAccountDto.getCountry());
+        centerAccount.setCity(centerAccountDto.getCity());
+        final double longitude = centerAccountDto.getLongitude() == null ? 0 : Double.parseDouble(centerAccountDto.getLongitude());
+        final double latitude = centerAccountDto.getLatitude() == null ? 0 : Double.parseDouble(centerAccountDto.getLatitude());
+        centerAccount.setLatitude(latitude);
+        centerAccount.setLongitude(longitude);
         centerAccount.setDescription(centerAccountDto.getDescription());
         centerAccount.setStartTime(LocalTime.parse(centerAccountDto.getStartTime()));
         centerAccount.setEndTime(LocalTime.parse(centerAccountDto.getEndTime()));

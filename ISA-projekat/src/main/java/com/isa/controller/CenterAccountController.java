@@ -1,15 +1,9 @@
 package com.isa.controller;
 
 import com.isa.domain.dto.*;
-import com.isa.domain.model.Appointment;
-import com.isa.domain.model.Blood;
-import com.isa.domain.model.CenterAccount;
-import com.isa.domain.model.User;
+import com.isa.domain.model.*;
 import com.isa.exception.NotFoundException;
-import com.isa.service.AppointmentService;
-import com.isa.service.BloodService;
-import com.isa.service.CenterAccountService;
-import com.isa.service.UserService;
+import com.isa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +22,18 @@ public class CenterAccountController {
     private final AppointmentService appointmentService;
     private final BloodService bloodService;
 
+    private final AppointmentReportService appointmentReportService;
+
+    private final EquipmentService equipmentService;
+
     @Autowired
-    public CenterAccountController(CenterAccountService centerAccountService, UserService userService, AppointmentService appointmentService, BloodService bloodService) {
+    public CenterAccountController(CenterAccountService centerAccountService, UserService userService, AppointmentService appointmentService, BloodService bloodService, AppointmentReportService appointmentReportService, EquipmentService equipmentService) {
         this.centerAccountService = centerAccountService;
         this.userService = userService;
         this.appointmentService = appointmentService;
         this.bloodService = bloodService;
+        this.appointmentReportService = appointmentReportService;
+        this.equipmentService = equipmentService;
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
@@ -134,7 +134,20 @@ public class CenterAccountController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
     @GetMapping(path = "/appointment/{id}")
-    public ResponseEntity<?> getAppointement(@PathVariable long id) {
+    public ResponseEntity<?> getAppointment(@PathVariable long id) {
         return new ResponseEntity<>(appointmentService.get(id), HttpStatus.OK);
     }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
+    @PostMapping(path = "/appointment-report")
+    public ResponseEntity<AppointmentReport> createAppointmentReport(@RequestBody AppointmentReportDto appointmentReportDto) {
+        return new ResponseEntity<>(appointmentReportService.create(appointmentReportDto), HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN_CENTER')")
+    @GetMapping(path = "/equipments")
+    public ResponseEntity<List<Equipment>> getEquipments() {
+        return new ResponseEntity<>(equipmentService.getAll(), HttpStatus.CREATED);
+    }
+
 }

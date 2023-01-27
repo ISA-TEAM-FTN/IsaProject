@@ -53,6 +53,10 @@ public class UserService {
         user.setLastName(userDTO.getLastName());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setRole(Role.ADMIN_CENTER);
+        final double latitude = userDTO.getLatitude() == null ? 0 : Double.parseDouble(userDTO.getLatitude());
+        final double longitude = userDTO.getLongitude() == null ? 0 : Double.parseDouble(userDTO.getLongitude());
+        user.setLatitude(latitude);
+        user.setLongitude(longitude);
         user.setAddress(userDTO.getAddress());
         user.setCity(userDTO.getCity());
         user.setCountry(userDTO.getCountry());
@@ -64,6 +68,8 @@ public class UserService {
         centerAccount.setCity("City");
         centerAccount.setDescription("Description");
         centerAccount.setCountry("Country");
+        centerAccount.setLatitude(41);
+        centerAccount.setLongitude(45);
         centerAccount.setStartTime(LocalTime.MIDNIGHT);
         centerAccount.setEndTime(LocalTime.NOON);
 
@@ -118,7 +124,11 @@ public class UserService {
         user.setLastName(userDTO.getLastName());
         user.setAddress(userDTO.getAddress());
         user.setCity(userDTO.getCity());
+        final double longitude = userDTO.getLongitude() == null ? 0 : Double.parseDouble(userDTO.getLongitude());
         user.setCountry(userDTO.getCountry());
+        final double latitude = userDTO.getLatitude() == null ? 0 : Double.parseDouble(userDTO.getLatitude());
+        user.setLatitude(latitude);
+        user.setLongitude(longitude);
         user.setFirstLogin(true);
         user.setPhone(userDTO.getPhone());
         user.setOccupationInfo(userDTO.getOccupationInfo());
