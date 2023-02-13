@@ -1,4 +1,4 @@
-package com.isa.controller;
+package com.isa.domain.controller;
 
 import com.isa.config.CustomUserDetailsService;
 import com.isa.domain.dto.ChangePasswordDTO;

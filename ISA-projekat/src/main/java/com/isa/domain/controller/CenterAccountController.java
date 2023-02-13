@@ -1,4 +1,4 @@
-package com.isa.controller;
+package com.isa.domain.controller;
 
 import com.isa.domain.dto.*;
 import com.isa.domain.model.*;
@@ -157,5 +157,4 @@ public class CenterAccountController {
         final List<Appointment> appointments = appointmentService.getScheduledAndNotFinishedAppointmentsBasedOnDate(centerAccount, appointmentDateDto.getDate());
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
-
 }
